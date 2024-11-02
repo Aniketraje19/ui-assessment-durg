@@ -1,0 +1,52 @@
+{
+    "employees" :[
+        {
+            "id":"101",
+            "name":"Johnson Wood",
+            "role":"Front End Engineer",
+            "email":"johnson@microsoft.com",
+            "pic":"/static/users/user1.jpg",
+            "is_active":true
+        },
+        {
+            "id":"102",
+            "name":"John Doe",
+            "role":"Team Lead",
+            "email":"johndoe@microsoft.com",
+            "pic":"/static/users/user2.jpg",
+            "is_active":true
+        },
+        {
+            "id":"103",
+            "name":"Fakhar Naveed",
+            "role":"UI/Ux Engineer",
+            "email":"fakhar@microsoft.com",
+            "pic":"/static/users/user3.jpg",
+            "is_active":true
+        },
+        {
+            "id":"104",
+            "name":"Alex Mode",
+            "role":"Software Engineer",
+            "email":"alex@microsoft.com",
+            "pic":"/static/users/user4.jpg",
+            "is_active":true
+        },
+        {
+            "id":"105",
+            "name":"Jane Smith",
+            "role":"Front End Engineer",
+            "email":"jane@microsoft.com",
+            "pic":"/static/users/user5.jpg",
+            "is_active":false
+        },
+        {
+            "id":"106",
+            "name":"Ethan Diego",
+            "role":"Software Engineer",
+            "email":"ethan@microsoft.com",
+            "pic":"/static/users/user6.jpg",
+            "is_active":false
+        }
+    ]
+}

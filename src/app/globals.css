@@ -3,11 +3,11 @@
 @tailwind utilities;
 
 :root {
-  --background: #ffffff;
+  --background: radial-gradient(circle at center, #ffff, #f1eafc);
   --foreground: #171717;
 }
 
-@media (prefers-color-scheme: dark) {
+@media (dark) {
   :root {
     --background: #0a0a0a;
     --foreground: #ededed;

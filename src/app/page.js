@@ -1,101 +1,74 @@
+"use client";
+import { Card } from "@/components/Card";
 import Image from "next/image";
 
-export default function Home() {
-  return (
-    <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
-      <main className="flex flex-col gap-8 row-start-2 items-center sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={180}
-          height={38}
-          priority
-        />
-        <ol className="list-inside list-decimal text-sm text-center sm:text-left font-[family-name:var(--font-geist-mono)]">
-          <li className="mb-2">
-            Get started by editing{" "}
-            <code className="bg-black/[.05] dark:bg-white/[.06] px-1 py-0.5 rounded font-semibold">
-              src/app/page.js
-            </code>
-            .
-          </li>
-          <li>Save and see your changes instantly.</li>
-        </ol>
+import EmployeesData from "@/data.json";
+import { useEffect, useState } from "react";
+import { ArrowIcon } from "@/components/icons/ArrowIcon";
+import { SearchIcon } from "@/components/icons/SearchIcon";
 
-        <div className="flex gap-4 items-center flex-col sm:flex-row">
-          <a
-            className="rounded-full border border-solid border-transparent transition-colors flex items-center justify-center bg-foreground text-background gap-2 hover:bg-[#383838] dark:hover:bg-[#ccc] text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={20}
-              height={20}
-            />
-            Deploy now
-          </a>
-          <a
-            className="rounded-full border border-solid border-black/[.08] dark:border-white/[.145] transition-colors flex items-center justify-center hover:bg-[#f2f2f2] dark:hover:bg-[#1a1a1a] hover:border-transparent text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 sm:min-w-44"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Read our docs
-          </a>
+export default function Home() {
+  const [filter, setFilter] = useState("all");
+  const [searchQuery, setSearchQuery] = useState("");
+  const [filteredData, setFiltered] = useState(EmployeesData.employees);
+
+  useEffect(() => {
+    const filterEmployees = () => {
+      let filtered = EmployeesData.employees;
+
+      if (filter === "active") {
+        filtered = filtered.filter((employee) => employee.is_active);
+      } else if (filter === "inactive") {
+        filtered = filtered.filter((employee) => !employee.is_active);
+      }
+
+      if (searchQuery) {
+        filtered = filtered.filter((employee) =>
+          employee.name.toLowerCase().includes(searchQuery.toLowerCase())
+        );
+      }
+
+      return filtered;
+    };
+
+    setFiltered(filterEmployees());
+  }, [filter, searchQuery]);
+
+  return (
+    <>
+      <div className="p-5 w-full flex justify-between">
+        <div className="flex justify-center items-center">
+          <SearchIcon className={"size-8 absolute left-6"} onClick={() => console.log("ehhe")} />
+          <input
+            type="text"
+            className="border-2 border-gray-500 bg-transparent rounded-lg px-10 text-lg py-2 w-80"
+            placeholder="Search"
+            value={searchQuery}
+            onChange={(e) => setSearchQuery(e.target.value)}
+          />
         </div>
-      </main>
-      <footer className="row-start-3 flex gap-6 flex-wrap items-center justify-center">
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/file.svg"
-            alt="File icon"
-            width={16}
-            height={16}
-          />
-          Learn
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/window.svg"
-            alt="Window icon"
-            width={16}
-            height={16}
-          />
-          Examples
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/globe.svg"
-            alt="Globe icon"
-            width={16}
-            height={16}
-          />
-          Go to nextjs.org →
-        </a>
-      </footer>
-    </div>
+        <div className="flex justify-center items-center">
+          <Image src={'/static/users/user.jpg'} width={50} height={50} alt="user-profile" className="rounded-full m-1" />
+          <p className="m-1 text-lg">Alex Doe</p>
+          <ArrowIcon className={"size-5"} />
+        </div>
+      </div>
+
+      <div className="p-5 w-full flex justify-between">
+        <p className="text-4xl font-bold">Employees</p>
+
+        <div>
+          <button className={`${filter === "all" ? 'bg-blue-400 text-white' : ''} font-medium my-1 mx-2 py-1 px-6 rounded-full`} onClick={() => setFilter("all")}>All</button>
+          <button className={`${filter === "active" ? 'bg-blue-400 text-white' : ''} font-medium my-1 mx-2 py-1 px-6 rounded-full`} onClick={() => setFilter("active")}>Active</button>
+          <button className={`${filter === "inactive" ? 'bg-blue-400 text-white' : ''} font-medium my-1 mx-2 py-1 px-6 rounded-full`} onClick={() => setFilter("inactive")}>Inactive</button>
+        </div>
+      </div>
+
+      <div className="flex flex-wrap p-5 justify-center">
+        {filteredData.map((employee) => (
+          <Card employee={employee} key={employee.id} />
+        ))}
+      </div>
+    </>
   );
 }
